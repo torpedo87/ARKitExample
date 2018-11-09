@@ -16,3 +16,8 @@
 ## 3D model import 
 - 다운로드한 3d 모델파일을 art.scnassets 폴더에 넣기
 - 3d 모델 포맷의 파일 선택해서 .scn 으로 convert 하기 (Editro 메뉴 - convert ......)
+
+
+## AR template configuration
+- ARSCNView : A view for displaying AR experiences that augment the camera view with 3D SceneKit content.
+- plist : camera authrization for privacy
