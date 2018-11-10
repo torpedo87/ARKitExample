@@ -15,6 +15,7 @@ class ViewController: UIViewController {
   @IBOutlet var sceneView: ARSCNView!
   var focusSquare: FocusSquare?
   var screenCenter: CGPoint!
+  var modelsInTheScene: [SCNNode] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -68,13 +69,23 @@ class ViewController: UIViewController {
   func updateFocusSquare() {
     guard let focusSquareLocal = focusSquare else { return }
     
+    //모델 위에서는 focussqure 가 사라지도록
+    guard let pointOfView = sceneView.pointOfView else { return }
+    let firstVisibleModel = modelsInTheScene.first { (node) -> Bool in
+      return sceneView.isNode(node, insideFrustumOf: pointOfView)
+    }
+    let modelsAreVisible = firstVisibleModel != nil
+    if modelsAreVisible != focusSquareLocal.isHidden {
+      focusSquareLocal.setHidden(to: modelsAreVisible)
+    }
+      
     let hitTest = sceneView.hitTest(screenCenter, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
     if let hitTestResult = hitTest.first {
-      print("focussquare hit the plane")
+      //print("focussquare hit the plane")
       let canAddNewModel: Bool = hitTestResult.anchor is ARPlaneAnchor
       focusSquareLocal.isClosed = canAddNewModel
     } else {
-      print("focussqure does not hit the plane")
+      //print("focussqure does not hit the plane")
       focusSquareLocal.isClosed = false
     }
   }
@@ -165,5 +176,49 @@ extension ViewController: ARSCNViewDelegate {
     DispatchQueue.main.async {
       self.updateFocusSquare()
     }
+  }
+}
+
+//add object model
+extension ViewController {
+  
+  fileprivate func getModel(named name: String) -> SCNNode? {
+    let scene = SCNScene(named: "art.scnassets/\(name)/\(name).scn")
+    guard let model = scene?.rootNode.childNode(withName: "SketchUp", recursively: false) else { return nil }
+    model.name = name
+    
+    var scale: CGFloat
+    switch name {
+    case "iPhoneX":
+      scale = 0.025
+    case "MyWatch":
+      scale = 0.0000038
+    default:
+      scale = 1.0
+    }
+    model.scale = SCNVector3(scale, scale, scale)
+    
+    return model
+  }
+  
+  @IBAction func addButtonTapped(_ sender: Any) {
+    print("button tap")
+    guard focusSquare != nil else { return }
+    let modelName = "iPhoneX"
+    
+    guard let model = getModel(named: modelName) else {
+      print("unable to load model")
+      return
+    }
+    
+    let hitTest = sceneView.hitTest(screenCenter, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+    guard let worldTransformColumn3 = hitTest.first?.worldTransform.columns.3 else { return }
+    model.position = SCNVector3(worldTransformColumn3.x, worldTransformColumn3.y, worldTransformColumn3.z)
+    
+    sceneView.scene.rootNode.addChildNode(model)
+    print("\(modelName) added successfully")
+    
+    modelsInTheScene.append(model)
+    print("currently have \(modelsInTheScene.count)")
   }
 }
