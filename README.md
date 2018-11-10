@@ -11,6 +11,8 @@
 - 3D renderer framework
 - Create 3D games and add 3D content to apps using high-level scene descriptions. Easily add animations, physics simulation, particle effects, and realistic physically based rendering.
 - SceneKit Scene Editor 를 제공하여 scene 속성을 쉽게 변경하는 것을 도와준다
+- SCNNode : A structural element of a scene graph, representing a position and transform in a 3D coordinate space, to which you can attach geometry, lights, cameras, or other displayable content.
+- hitTest : Searches for real-world objects or AR anchors in the captured camera image corresponding to a point in the SceneKit view.
 
 
 ## 3D model import 
@@ -21,3 +23,6 @@
 ## AR template configuration
 - ARSCNView : A view for displaying AR experiences that augment the camera view with 3D SceneKit content.
 - plist : camera authrization for privacy
+
+
+

@@ -13,6 +13,8 @@ import ARKit
 class ViewController: UIViewController {
   
   @IBOutlet var sceneView: ARSCNView!
+  var focusSquare: FocusSquare?
+  var screenCenter: CGPoint!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,6 +36,8 @@ class ViewController: UIViewController {
     
     // Set the scene to the view
     //sceneView.scene = scene
+    
+    screenCenter = view.center
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +58,26 @@ class ViewController: UIViewController {
     sceneView.session.pause()
   }
   
+  //landscape mode
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    super.viewWillTransition(to: size, with: coordinator)
+    let viewCenter = CGPoint(x: size.width / 2, y: size.height / 2)
+    screenCenter = viewCenter
+  }
   
+  func updateFocusSquare() {
+    guard let focusSquareLocal = focusSquare else { return }
+    
+    let hitTest = sceneView.hitTest(screenCenter, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+    if let hitTestResult = hitTest.first {
+      print("focussquare hit the plane")
+      let canAddNewModel: Bool = hitTestResult.anchor is ARPlaneAnchor
+      focusSquareLocal.isClosed = canAddNewModel
+    } else {
+      print("focussqure does not hit the plane")
+      focusSquareLocal.isClosed = false
+    }
+  }
   
   func session(_ session: ARSession, didFailWithError error: Error) {
     // Present an error message to the user
@@ -74,15 +97,22 @@ class ViewController: UIViewController {
 
 
 extension ViewController: ARSCNViewDelegate {
+  
+  //물체 감지시
   func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
     guard anchor is ARPlaneAnchor else { return }
     print("horizontal surface detected")
-    let planeAnchor = anchor as! ARPlaneAnchor
-    let planeNode = createPlane(planeAnchor: planeAnchor)
-    node.addChildNode(planeNode)
+//    let planeAnchor = anchor as! ARPlaneAnchor
+//    let planeNode = createPlane(planeAnchor: planeAnchor)
+//    node.addChildNode(planeNode)
     
+    guard focusSquare == nil else { return }
+    let focusSquareLocal = FocusSquare()
+    sceneView.scene.rootNode.addChildNode(focusSquareLocal)
+    focusSquare = focusSquareLocal
   }
   
+  //화면에 넣을 가상물체 생성
   func createPlane(planeAnchor: ARPlaneAnchor) -> SCNNode {
     let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x),
                          height: CGFloat(planeAnchor.extent.z))
@@ -98,23 +128,42 @@ extension ViewController: ARSCNViewDelegate {
     return planeNode
   }
   
+  //감지한 물체 업데이트
   func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
     guard anchor is ARPlaneAnchor else { return }
-    print("horizontal surface updated")
+    //print("horizontal surface updated")
     
-    node.enumerateChildNodes { (childNode, _) in
-      childNode.removeFromParentNode()
-    }
-    let planeAnchor = anchor as! ARPlaneAnchor
-    let planeNode = createPlane(planeAnchor: planeAnchor)
-    node.addChildNode(planeNode)
+//    node.enumerateChildNodes { (childNode, _) in
+//      childNode.removeFromParentNode()
+//    }
+//    let planeAnchor = anchor as! ARPlaneAnchor
+//    let planeNode = createPlane(planeAnchor: planeAnchor)
+//    node.addChildNode(planeNode)
   }
   
+  //감지한 물체 제거
   func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
     guard anchor is ARPlaneAnchor else { return }
     print("horizontal surface removed")
-    node.enumerateChildNodes { (childNode, _) in
-      childNode.removeFromParentNode()
+//    node.enumerateChildNodes { (childNode, _) in
+//      childNode.removeFromParentNode()
+//    }
+  }
+  
+  
+  //frame update
+  func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+    guard let focusSquareLocal = focusSquare else { return }
+    
+    //screenCenter를 2D -> 3D 로 만들어서 focusSquare 를 plane 과 같은 레벨에 위치시키기
+    let hitTest = sceneView.hitTest(screenCenter, types: ARHitTestResult.ResultType.existingPlane)
+    let hitTestResult = hitTest.first
+    guard let worldTransform = hitTestResult?.worldTransform else { return }
+    let worldTransformColumn3 = worldTransform.columns.3
+    focusSquareLocal.position = SCNVector3(worldTransformColumn3.x, worldTransformColumn3.y, worldTransformColumn3.z)
+    
+    DispatchQueue.main.async {
+      self.updateFocusSquare()
     }
   }
 }
