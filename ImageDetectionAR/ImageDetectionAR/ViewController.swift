@@ -39,9 +39,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                                                                  bundle: Bundle.main) else { return }
     configuration.trackingImages = referenceImages
     configuration.maximumNumberOfTrackedImages = 1
+    configuration.isLightEstimationEnabled = true
     
     // Run the view's session
     sceneView.session.run(configuration)
+    sceneView.autoenablesDefaultLighting = true
+    sceneView.automaticallyUpdatesLighting = true
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -57,6 +60,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   // Override to create and configure nodes for anchors added to the view's session.
   func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
     let node = SCNNode()
+    let animator = SCNAction.scale(by: 10, duration: 3)
+    
     if anchor is ARImageAnchor {
       let plane = SCNPlane(width: 0.7, height: 0.35)
       let deviceScene = SKScene(fileNamed: "DeviceScene")
@@ -72,11 +77,29 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       let iPhoneScene = SCNScene(named: "art.scnassets/iPhoneX.scn")!
       iPhoneNode = iPhoneScene.rootNode.childNodes.first!
       iPhoneNode.position = SCNVector3(0, 0, 0.15)
+      let min = iPhoneNode.boundingBox.min
+      let max = iPhoneNode.boundingBox.max
+      //회전축을 중심에 맞추기
+      iPhoneNode.pivot = SCNMatrix4MakeTranslation(min.x + (max.x - min.x) / 2,
+                                                   min.y + (max.y - min.y) / 2,
+                                                   min.z + (max.z - min.z) / 2)
+      
+      let iPhoneLight = iPhoneScene.rootNode.childNodes.filter { $0.name == "spot" }.first!
+      
       
       planeNode.addChildNode(iPhoneNode)
+      planeNode.addChildNode(iPhoneLight)
       node.addChildNode(planeNode)
+      iPhoneNode.runAction(rotateObject())
+      iPhoneNode.runAction(animator)
     }
     return node
+  }
+  
+  func rotateObject() -> SCNAction {
+    let rotateAction = SCNAction.rotateBy(x: 0, y: CGFloat(GLKMathDegreesToRadians(360)), z: 0, duration: 3.0)
+    let repeatAction = SCNAction.repeatForever(rotateAction)
+    return repeatAction
   }
   
   
