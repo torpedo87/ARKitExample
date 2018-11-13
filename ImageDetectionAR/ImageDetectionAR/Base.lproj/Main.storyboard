@@ -1,37 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="U0K-SW-4ec">
+                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="ImageDetectionAR" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BEH-Us-r6h">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="map-pN-ezh">
+                                <rect key="frame" x="46" y="589" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="IW8-Bf-RkJ"/>
+                                    <constraint firstAttribute="height" constant="50" id="kRp-K1-CTY"/>
+                                </constraints>
+                                <state key="normal" image="PlaceScreen"/>
+                                <connections>
+                                    <action selector="placeScreenButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="cTf-Li-Pii"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYD-ty-Tjd">
+                                <rect key="frame" x="279" y="589" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="TNK-sI-FEa"/>
+                                    <constraint firstAttribute="height" constant="50" id="n5T-F0-d4D"/>
+                                </constraints>
+                                <state key="normal" image="Minus"/>
+                                <connections>
+                                    <action selector="minusButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="L6U-Qt-pGZ"/>
+                                </connections>
+                            </button>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W9g-QX-CUP">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </arscnView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NbE-lj-Vog">
+                                <rect key="frame" x="162.5" y="589" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="LtQ-Op-kcL"/>
+                                    <constraint firstAttribute="height" constant="50" id="a0m-Dg-9dP"/>
+                                </constraints>
+                                <state key="normal" image="Add"/>
+                                <connections>
+                                    <action selector="plusButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="MuN-jw-JSQ"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
-                            <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
-                            <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
-                            <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
+                            <constraint firstItem="w7p-Xc-FTP" firstAttribute="bottom" secondItem="NbE-lj-Vog" secondAttribute="bottom" constant="28" id="4Lt-AB-8hE"/>
+                            <constraint firstAttribute="bottom" secondItem="W9g-QX-CUP" secondAttribute="bottom" id="AUc-UE-NLC"/>
+                            <constraint firstItem="w7p-Xc-FTP" firstAttribute="trailing" secondItem="WYD-ty-Tjd" secondAttribute="trailing" constant="46" id="ESh-Bn-0Ze"/>
+                            <constraint firstItem="map-pN-ezh" firstAttribute="leading" secondItem="w7p-Xc-FTP" secondAttribute="leading" constant="46" id="JTt-Na-KIj"/>
+                            <constraint firstAttribute="trailing" secondItem="W9g-QX-CUP" secondAttribute="trailing" id="Wse-4W-oGZ"/>
+                            <constraint firstItem="w7p-Xc-FTP" firstAttribute="bottom" secondItem="WYD-ty-Tjd" secondAttribute="bottom" constant="28" id="c0q-Cd-6Jr"/>
+                            <constraint firstItem="W9g-QX-CUP" firstAttribute="top" secondItem="BEH-Us-r6h" secondAttribute="top" id="in4-u5-K3w"/>
+                            <constraint firstItem="W9g-QX-CUP" firstAttribute="leading" secondItem="BEH-Us-r6h" secondAttribute="leading" id="jlm-Vm-dcQ"/>
+                            <constraint firstItem="NbE-lj-Vog" firstAttribute="centerX" secondItem="BEH-Us-r6h" secondAttribute="centerX" id="okq-cy-Fd8"/>
+                            <constraint firstItem="w7p-Xc-FTP" firstAttribute="bottom" secondItem="map-pN-ezh" secondAttribute="bottom" constant="28" id="s3K-7i-YzA"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
+                        <viewLayoutGuide key="safeArea" id="w7p-Xc-FTP"/>
                     </view>
                     <connections>
-                        <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                        <outlet property="sceneView" destination="W9g-QX-CUP" id="Xzh-ar-KpJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Add" width="50" height="50"/>
+        <image name="Minus" width="50" height="50"/>
+        <image name="PlaceScreen" width="50" height="50"/>
+    </resources>
 </document>

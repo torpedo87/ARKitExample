@@ -12,6 +12,7 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
   
+  var iPhoneXNode = SCNNode()
   @IBOutlet var sceneView: ARSCNView!
   
   override func viewDidLoad() {
@@ -54,6 +55,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     sceneView.session.pause()
   }
   
+  @IBAction func placeScreenButtonTapped(_ sender: UIButton) {
+    iPhoneXNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "art.scnassets/AR-Screen")
+  }
+  
+  @IBAction func plusButtonTapped(_ sender: UIButton) {
+    let scalePlus = SCNAction.scale(by: 2, duration: 2.0)
+    iPhoneXNode.runAction(scalePlus)
+  }
+  
+  @IBAction func minusButtonTapped(_ sender: UIButton) {
+    let scaleMinus = SCNAction.scale(by: 0.5, duration: 2.0)
+    iPhoneXNode.runAction(scaleMinus)
+  }
   // MARK: - ARSCNViewDelegate
   
   
@@ -74,6 +88,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       planeNode.eulerAngles.x = -.pi/2
       
       var iPhoneNode = SCNNode()
+      iPhoneXNode = iPhoneNode
       let iPhoneScene = SCNScene(named: "art.scnassets/iPhoneX.scn")!
       iPhoneNode = iPhoneScene.rootNode.childNodes.first!
       iPhoneNode.position = SCNVector3(0, 0, 0.15)
