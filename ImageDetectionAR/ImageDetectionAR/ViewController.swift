@@ -56,7 +56,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   }
   
   @IBAction func placeScreenButtonTapped(_ sender: UIButton) {
-    iPhoneXNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "art.scnassets/AR-Screen")
+    //iPhoneXNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "art.scnassets/AR-Screen")
+    performSegue(withIdentifier: "HomeToDialog", sender: nil)
   }
   
   @IBAction func plusButtonTapped(_ sender: UIButton) {
@@ -67,6 +68,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   @IBAction func minusButtonTapped(_ sender: UIButton) {
     let scaleMinus = SCNAction.scale(by: 0.5, duration: 2.0)
     iPhoneXNode.runAction(scaleMinus)
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "HomeToDialog" {
+      let toViewController = segue.destination as! DialogViewController
+      toViewController.delegate = self
+    }
   }
   // MARK: - ARSCNViewDelegate
   
@@ -131,5 +139,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   func sessionInterruptionEnded(_ session: ARSession) {
     // Reset tracking and/or remove existing anchors if consistent tracking is required
     
+  }
+}
+
+extension ViewController: DialogViewControllerDelegate {
+  func screenImageButtonTapped(image: UIImage) {
+    iPhoneXNode.geometry?.firstMaterial?.diffuse.contents = image
   }
 }

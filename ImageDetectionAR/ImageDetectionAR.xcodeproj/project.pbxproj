@@ -14,6 +14,8 @@
 		4899A2DC21992D9000D17038 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4899A2DB21992D9000D17038 /* Assets.xcassets */; };
 		4899A2DF21992D9000D17038 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4899A2DD21992D9000D17038 /* LaunchScreen.storyboard */; };
 		4899A2E8219935B700D17038 /* DeviceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4899A2E7219935B700D17038 /* DeviceScene.sks */; };
+		4899A2EC219BF34300D17038 /* DialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4899A2EB219BF34300D17038 /* DialogViewController.swift */; };
+		4899A2EE219BF77900D17038 /* DialogCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4899A2ED219BF77900D17038 /* DialogCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		4899A2E021992D9000D17038 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4899A2E62199344E00D17038 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4899A2E7219935B700D17038 /* DeviceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DeviceScene.sks; sourceTree = "<group>"; };
+		4899A2EB219BF34300D17038 /* DialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogViewController.swift; sourceTree = "<group>"; };
+		4899A2ED219BF77900D17038 /* DialogCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				4899A2D221992D8F00D17038 /* AppDelegate.swift */,
 				4899A2D421992D8F00D17038 /* art.scnassets */,
 				4899A2D621992D8F00D17038 /* ViewController.swift */,
+				4899A2EB219BF34300D17038 /* DialogViewController.swift */,
+				4899A2ED219BF77900D17038 /* DialogCollectionViewCell.swift */,
 				4899A2E7219935B700D17038 /* DeviceScene.sks */,
 				4899A2D821992D8F00D17038 /* Main.storyboard */,
 				4899A2DB21992D9000D17038 /* Assets.xcassets */,
@@ -145,8 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4899A2EE219BF77900D17038 /* DialogCollectionViewCell.swift in Sources */,
 				4899A2D721992D8F00D17038 /* ViewController.swift in Sources */,
 				4899A2D321992D8F00D17038 /* AppDelegate.swift in Sources */,
+				4899A2EC219BF34300D17038 /* DialogViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
